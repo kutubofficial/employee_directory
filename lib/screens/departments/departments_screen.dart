@@ -78,21 +78,25 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 6),
                       leading: Container(
-                        height: 48,
-                        width: 48,
-                        decoration: BoxDecoration(
-                          color: bg,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: Icon(Icons.apartment, color: fg),
-                      ),
+  height: 46,
+  width: 46,
+  decoration: BoxDecoration(
+    color: bg,
+    shape: BoxShape.circle,
+  ),
+  padding: const EdgeInsets.all(10),
+  child: Image.asset(
+    _departmentImage(d.name),
+    fit: BoxFit.contain,
+  ),
+),
                       title: Text(
                         d.name,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,color: AppColors.textPrimary,
                         ),
                       ),
-                      trailing: const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+                      trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
                       onTap: () => _open(d),
                     );
                   },
@@ -106,4 +110,34 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
       ),
     );
   }
+  String _departmentImage(String name) {
+  switch (name.toLowerCase().trim()) {
+    case 'administration':
+      return 'assets/icons/administrator.png';
+
+    case 'customer support':
+      return 'assets/icons/support.png';
+
+    case 'finance':
+      return 'assets/icons/finance.png';
+
+    case 'human resources':
+      return 'assets/icons/human.png';
+
+    case 'information technology':
+      return 'assets/icons/it.png';
+
+    case 'legal':
+      return 'assets/icons/legal.png';
+
+    case 'marketing':
+      return 'assets/icons/marketing.png';
+
+    case 'sales':
+      return 'assets/icons/sales.png';
+
+    default:
+      return 'assets/icons/administrator.png';
+  }
+}
 }

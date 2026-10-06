@@ -208,7 +208,7 @@ Widget _buildHeader() {
         },
         decoration: InputDecoration(
           hintText: 'Search employees by name, department...',
-          hintStyle:const TextStyle(fontSize: 14, color: AppColors.textSecondary),
+          hintStyle:const TextStyle(fontSize: 14.5, color: Color.fromARGB(255, 137, 136, 136),fontWeight: FontWeight.w400),
           prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
           suffixIcon: _searchController.text.isEmpty
               ? null

@@ -1,9 +1,8 @@
 import 'package:employee_directory/core/theme/app_colors.dart';
-import 'package:employee_directory/providers/auth_provider.dart';
 import 'package:employee_directory/screens/departments/departments_screen.dart';
 import 'package:employee_directory/screens/employees/employee_list_screen.dart';
+import 'package:employee_directory/screens/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,8 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
   static const _pages = <Widget>[
     EmployeeListScreen(),
     DepartmentsScreen(),
-    _ComingSoon('Favorites'),
-    _ComingSoon('More'),
+    _FavoritesScreen('Favorites'),
+    SettingsScreen(),
   ];
 
   @override
@@ -62,17 +61,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class _ComingSoon extends StatelessWidget {
+class _FavoritesScreen extends StatelessWidget {
   final String title;
-  const _ComingSoon(this.title);
+  const _FavoritesScreen(this.title);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-  child: ElevatedButton(
-    onPressed: () => context.read<AuthProvider>().logout(),
-    child: const Text('Logout'),
-  ),
+  child: Text('No Favorites Yet',style:const TextStyle(fontSize: 26,fontWeight: FontWeight.w500,color: Color.fromARGB(255, 189, 189, 189)) ,)
 );
   }
 }

@@ -55,12 +55,9 @@ class EmployeeDetailScreen extends StatelessWidget {
         leading: IconButton(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios_new_rounded,
         size: 24,color: AppColors.textPrimary,)),
 
-        title: const Text(
-          'Employee Details',
+        title: const Text('Employee Details',
           style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            fontSize: 20,fontWeight: FontWeight.w700,color: AppColors.textPrimary,
           ),
         ),
 
@@ -69,8 +66,7 @@ class EmployeeDetailScreen extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(
               Icons.more_vert,
-              size: 24,
-              color: AppColors.textPrimary,
+              size: 24,color: AppColors.textPrimary,
             ),
           ),
         ],
@@ -86,7 +82,7 @@ class EmployeeDetailScreen extends StatelessWidget {
 
             _buildActions(context),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 20),
 
             _buildInfoCard(),
           ],
@@ -105,7 +101,7 @@ class EmployeeDetailScreen extends StatelessWidget {
           radius: 39,
         ),
 
-        const SizedBox(width: 14),
+        const SizedBox(width: 18),
 
         Expanded(
           child: Column(
@@ -117,8 +113,7 @@ class EmployeeDetailScreen extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 18.5,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w800,color: AppColors.textPrimary,
                 ),
               ),
 
@@ -129,19 +124,14 @@ class EmployeeDetailScreen extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textSecondary,
+                  fontSize: 15,fontWeight: FontWeight.w500,color: AppColors.textSecondary,
                 ),
               ),
 
               const SizedBox(height: 5),
 
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 7,
-                  vertical: 3,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 3,),
                 decoration: BoxDecoration(
                   color: const Color(0xFFE8F8EE),
                   borderRadius: BorderRadius.circular(20),
@@ -161,9 +151,7 @@ class EmployeeDetailScreen extends StatelessWidget {
                     const Text(
                       'Online',
                       style: TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF168A49),
+                        fontSize: 13.5,fontWeight: FontWeight.w600,color: Color(0xFF168A49),
                       ),
                     ),
                   ],
@@ -214,9 +202,7 @@ class EmployeeDetailScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(11),
-        border: Border.all(
-          color: AppColors.divider,
-        ),
+        border: Border.all(color: AppColors.divider,),
       ),
       child: Column(
         children: [
@@ -264,7 +250,7 @@ class EmployeeDetailScreen extends StatelessWidget {
             icon: Icons.person_outline,
             label: 'Reporting To',
             value: reportingTo,
-            // subtitle: reportingDesignation,
+            subtitle: reportingDesignation,
           ),
 
           const Divider(height: 1),
@@ -318,16 +304,12 @@ class _ActionButton extends StatelessWidget {
               child: label != null
                   ? Text(
                       label!,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w600,
+                      style: const TextStyle(color: Colors.white,fontSize: 13.5,fontWeight: FontWeight.w600,
                       ),
                     )
                   : Icon(
                       icon,
-                      size: 20,
-                      color: AppColors.primary,
+                      size: 20,color: AppColors.primary,
                     ),
             ),
           ),

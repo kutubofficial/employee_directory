@@ -5,25 +5,39 @@ class DetailRow extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final String? subtitle;
 
   const DetailRow({
     super.key,
     required this.icon,
     required this.label,
     required this.value,
+    this.subtitle,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 14,
+        vertical: 16,
+      ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, size: 20, color: AppColors.textSecondary),
-          const SizedBox(width: 14),
           SizedBox(
-            width: 96,
+            width: 28,
+            child: Icon(
+              icon,
+              size: 19,
+              color: AppColors.textSecondary,
+            ),
+          ),
+
+          const SizedBox(width: 10),
+
+          SizedBox(
+            width: 112,
             child: Text(
               label,
               style: const TextStyle(
@@ -32,14 +46,33 @@ class DetailRow extends StatelessWidget {
               ),
             ),
           ),
+
+          const SizedBox(width: 8),
+
           Expanded(
-            child: Text(
-              value.isEmpty ? '-' : value,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textPrimary,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value.isEmpty ? '-' : value,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+
+                if (subtitle != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle!,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
         ],

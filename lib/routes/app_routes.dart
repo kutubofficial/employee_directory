@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:employee_directory/providers/auth_provider.dart';
+import 'package:employee_directory/screens/auth/login_screen.dart';
+import 'package:employee_directory/screens/auth/registration_screen.dart';
+import 'package:employee_directory/screens/home/home_screen.dart';
+import 'package:employee_directory/screens/splash/splash_screen.dart';
 import 'package:go_router/go_router.dart';
-import '../providers/auth_provider.dart';
-import '../screens/auth/login_screen.dart';
-import '../screens/home/home_screen.dart';
-import '../screens/splash/splash_screen.dart';
+
 
 class AppRoutes {
   AppRoutes._();
@@ -35,11 +36,7 @@ class AppRoutes {
       routes: [
         GoRoute(path: splash, builder: (_, _) => const SplashScreen()),
         GoRoute(path: login, builder: (_, _) => const LoginScreen()),
-        GoRoute(
-          path: register,
-          // TODO: replace with RegisterScreen
-          builder: (_, _) => const Scaffold(body: Center(child: Text('Register'))),
-        ),
+        GoRoute(path: register, builder: (_, _) => const RegisterScreen()),
         GoRoute(path: home, builder: (_, _) => const HomeScreen()),
       ],
     );

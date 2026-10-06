@@ -29,7 +29,7 @@ class DetailRow extends StatelessWidget {
             width: 28,
             child: Icon(
               icon,
-              size: 19,
+              size: 24,
               color: AppColors.textSecondary,
             ),
           ),
@@ -37,12 +37,13 @@ class DetailRow extends StatelessWidget {
           const SizedBox(width: 10),
 
           SizedBox(
-            width: 112,
+            width: 116,
             child: Text(
               label,
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 16,
                 color: AppColors.textSecondary,
+                fontWeight: FontWeight.w400
               ),
             ),
           ),
@@ -56,7 +57,7 @@ class DetailRow extends StatelessWidget {
                 Text(
                   value.isEmpty ? '-' : value,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textPrimary,
                   ),

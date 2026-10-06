@@ -1,10 +1,11 @@
 import 'package:employee_directory/core/utils/validators.dart';
 import 'package:employee_directory/providers/auth_provider.dart';
-import 'package:employee_directory/screens/auth/registration_screen.dart';
+import 'package:employee_directory/routes/app_routes.dart';
 import 'package:employee_directory/widgets/app_button.dart';
 import 'package:employee_directory/widgets/app_text_field.dart';
 import 'package:employee_directory/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -42,7 +43,6 @@ Future<void> _onLogin() async {
       SnackBar(content: Text(auth.errorMessage ?? 'Login failed')),
     );
   }
-  // On success there is no navigation code. The router redirects to /home.
 }
 
   @override
@@ -231,9 +231,7 @@ Future<void> _onLogin() async {
                       ),
           
                       GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (_)=> const RegisterScreen()));
-                        },
+                        onTap: () => context.push(AppRoutes.register),
                         child: const Text(
                           'Register',
                           style: TextStyle(

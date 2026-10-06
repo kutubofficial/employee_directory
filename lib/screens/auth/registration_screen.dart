@@ -39,7 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    // Load departments after the first frame so notifyListeners is safe.
+    //===> Load departments after the first frame so notifyListeners is safe.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<DepartmentProvider>().load();
     });
@@ -142,24 +142,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
             FocusScope.of(context).unfocus();
           },
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 22,
-              vertical: 20,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 22,vertical: 20,),
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Back button
                   Row(
                     children: [
                       IconButton(
                         onPressed: _goToLogin,
                         icon: const Icon(
                           Icons.arrow_back_ios_new,
-                          size: 21,
-                          color: AppColors.textPrimary,
+                          size: 21,color: AppColors.textPrimary,
                         ),
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
@@ -169,14 +164,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           
                   const SizedBox(height: 2),
           
-                  // Title
                   const Text(
                     'Create Account',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      fontSize: 23,fontWeight: FontWeight.w700,color: AppColors.textPrimary,
                     ),
                   ),
           
@@ -186,15 +178,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'Join your company directory',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.textSecondary,
+                      fontSize: 15,fontWeight: FontWeight.w400,color: AppColors.textSecondary,
                     ),
                   ),
           
                   const SizedBox(height: 18),
           
-                  // Profile image
                   Center(
                     child: GestureDetector(
                       onTap: _pickImage,
@@ -208,8 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               shape: BoxShape.circle,
                               color: const Color(0xFFE5E7EB),
                               border: Border.all(
-                                color: const Color(0xFFBFC3C7),
-                                width: 1.5,
+                                color: const Color(0xFFBFC3C7), width: 1.5,
                               ),
                             ),
                             child: ClipOval(
@@ -220,19 +208,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     )
                                   : const Icon(
                                       Icons.person,
-                                      size: 62,
-                                      color: Color(0xFF7A7F85),
+                                      size: 62,color: Color(0xFF7A7F85),
                                     ),
                             ),
                           ),
           
-                          // Camera button
                           Positioned(
                             right: -2,
                             bottom: -2,
                             child: Container(
-                              height: 36,
-                              width: 36,
+                              height: 36, width: 36,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: AppColors.primary,
@@ -251,7 +236,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           
                   const SizedBox(height: 22),
           
-                  // Full Name
                   AppTextField(
                     label: 'Full Name',
                     controller: _fullNameController,
@@ -267,7 +251,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           
                   const SizedBox(height: 10),
           
-                  // Employee ID
                   AppTextField(
                     label: 'Employee ID',
                     controller: _employeeIdController,
@@ -283,7 +266,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           
                   const SizedBox(height: 10),
           
-                  // Email
                   AppTextField(
                     label: 'Email Address',
                     controller: _emailController,
@@ -295,7 +277,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           
                   const SizedBox(height: 10),
           
-                  // Mobile
                   AppTextField(
                     label: 'Mobile Number',
                     controller: _mobileController,
@@ -317,12 +298,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           
                   const SizedBox(height: 10),
           
-                  // Department (loaded from the API)
                   _buildDepartmentField(),
           
                   const SizedBox(height: 10),
           
-                  // Designation
                   AppTextField(
                     label: 'Designation',
                     controller: _designationController,
@@ -338,7 +317,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           
                   const SizedBox(height: 10),
           
-                  // Date of joining
                   TextFormField(
                     controller: _dateController,
                     readOnly: true,
@@ -357,7 +335,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           
                   const SizedBox(height: 10),
           
-                  // Password
                   AppTextField(
                     label: 'Password',
                     controller: _passwordController,
@@ -369,28 +346,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
           
                   const SizedBox(height: 30),
           
-                  // Register button
                   SizedBox(
                     height: 48,
                     child: AppButton(
                       label: 'Register',
-                      isLoading:
-                          context.select<AuthProvider, bool>((p) => p.isLoading),
+                      isLoading:context.select<AuthProvider, bool>((p) => p.isLoading),
                       onPressed: _onRegister,
                     ),
                   ),
           
                   const SizedBox(height: 25),
           
-                  // Login
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Already have an account? ',
+                      const Text('Already have an account? ',
                         style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 15,fontWeight: FontWeight.w500,
                           color: AppColors.textSecondary,
                         ),
                       ),
@@ -399,9 +371,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: const Text(
                           'Login',
                           style: TextStyle(
-                            fontSize: 15,
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 15,color: AppColors.primary,fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),

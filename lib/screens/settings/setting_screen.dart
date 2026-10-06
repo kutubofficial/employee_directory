@@ -1,5 +1,6 @@
 import 'package:employee_directory/core/theme/app_colors.dart';
 import 'package:employee_directory/providers/auth_provider.dart';
+import 'package:employee_directory/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,14 +16,14 @@ class SettingsScreen extends StatelessWidget {
         surfaceTintColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            size: 22,
-            color: AppColors.textPrimary,
-          ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () => Navigator.pop(context),
+        //   icon: const Icon(
+        //     Icons.arrow_back_ios_new_rounded,
+        //     size: 22,
+        //     color: AppColors.textPrimary,
+        //   ),
+        // ),
         title: const Text(
           'Settings',
           style: TextStyle(
@@ -33,7 +34,7 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
+        padding: const EdgeInsets.fromLTRB(16, 24, 16, 20),
         child: Column(
           children: [
             _buildCard(
@@ -41,7 +42,9 @@ class SettingsScreen extends StatelessWidget {
                 _SettingTile(
                   icon: Icons.person_outline,
                   title: 'My Profile',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=>MyProfileScreen()));
+                  },
                 ),
                 _SettingTile(
                   icon: Icons.lock_outline,
@@ -111,9 +114,7 @@ class SettingsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: const Color(0xFFE9EAEC),
-        ),
+        border: Border.all( color: const Color(0xFFE9EAEC),),
       ),
       child: Column(
         children: children,
@@ -128,15 +129,12 @@ void _showLogoutDialog(BuildContext context) {
     builder: (context) {
       return Dialog(
         backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22),),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 32, 24, 22),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Logout Icon
               const Icon(
                 Icons.logout_rounded,
                 size: 58,
@@ -145,32 +143,27 @@ void _showLogoutDialog(BuildContext context) {
 
               const SizedBox(height: 12),
 
-              // Title
-              const Text(
-                'Logout',
+              const Text('Logout',
                 style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  fontSize: 25,fontWeight: FontWeight.w700,color: AppColors.textPrimary,
                 ),
               ),
 
               const SizedBox(height: 8),
 
-              // Message
               const Text(
                 'Are you sure you want to logout\nfrom your account?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 18,
                   height: 1.4,
-                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.greyColor,
                 ),
               ),
 
               const SizedBox(height: 28),
 
-              // Buttons
               Row(
                 children: [
                   Expanded(
@@ -188,11 +181,8 @@ void _showLogoutDialog(BuildContext context) {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                        child: const Text('Cancel',
+                          style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
@@ -205,7 +195,11 @@ void _showLogoutDialog(BuildContext context) {
                     child: SizedBox(
                       height: 54,
                       child: ElevatedButton(
-                        onPressed: () => context.read<AuthProvider>().logout(),
+                        onPressed: (){
+                          final auth = context.read<AuthProvider>();
+                          Navigator.pop(context);
+                          auth.logout();
+                        }, 
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
@@ -216,10 +210,7 @@ void _showLogoutDialog(BuildContext context) {
                         ),
                         child: const Text(
                           'Logout',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,),
                         ),
                       ),
                     ),
@@ -261,24 +252,18 @@ class _SettingTile extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              icon,
-              size: 24,
-              color: isLogout
-                  ? AppColors.primary
-                  : AppColors.textSecondary,
+              icon,size: 26,
+              color: isLogout ? AppColors.primary : AppColors.textSecondary,
             ),
 
-            const SizedBox(width: 14),
+            const SizedBox(width: 18),
 
             Expanded(
               child: Text(
                 title,
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: isLogout
-                      ? AppColors.primary
-                      : AppColors.textPrimary,
+                  fontSize: 17,fontWeight: FontWeight.w500,
+                  color: isLogout ? AppColors.primary: AppColors.textPrimary,
                 ),
               ),
             ),
@@ -287,9 +272,7 @@ class _SettingTile extends StatelessWidget {
               Text(
                 trailingText!,
                 style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textSecondary,
+                  fontSize: 15,fontWeight: FontWeight.w500,color: AppColors.greyColor,
                 ),
               ),
 
@@ -297,10 +280,8 @@ class _SettingTile extends StatelessWidget {
 
             Icon(
               Icons.chevron_right_rounded,
-              size: 24,
-              color: isLogout
-                  ? AppColors.primary
-                  : AppColors.textSecondary,
+              size: 26,
+              color: isLogout  ? AppColors.primary : AppColors.textSecondary,
             ),
           ],
         ),

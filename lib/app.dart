@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
+import 'widgets/app_button.dart';
+import 'widgets/app_text_field.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -16,9 +18,18 @@ class App extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const TextField(decoration: InputDecoration(hintText: 'Email')),
+              const AppTextField(
+                label: 'Email',
+                prefixIcon: Icons.email_outlined,
+              ),
               const SizedBox(height: 16),
-              ElevatedButton(onPressed: () {}, child: const Text('Login')),
+              const AppTextField(
+                label: 'Password',
+                prefixIcon: Icons.lock_outline,
+                isPassword: true,
+              ),
+              const SizedBox(height: 16),
+              AppButton(label: 'Login', onPressed: () {}),
             ],
           ),
         ),

@@ -1,7 +1,8 @@
+import 'package:employee_directory/providers/auth_provider.dart';
 import 'package:employee_directory/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:employee_directory/core/theme/app_colors.dart';
-import 'package:employee_directory/screens/auth/login_screen.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,16 +16,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(const Duration(seconds: 2), () {
-      if (!mounted) return;
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => const LoginScreen(),
-        ),
-      );
-    });
+    _start();
+  }
+  
+  Future<void> _start() async {
+    final auth = context.read<AuthProvider>();
+    await Future.delayed(const Duration(milliseconds: 1500)); // brand moment
+    await auth.tryAutoLogin(); // router redirects when this finishes
   }
 
   @override

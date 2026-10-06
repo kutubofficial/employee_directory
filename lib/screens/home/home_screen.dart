@@ -1,6 +1,8 @@
 import 'package:employee_directory/core/theme/app_colors.dart';
+import 'package:employee_directory/providers/auth_provider.dart';
 import 'package:employee_directory/screens/employees/employee_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,6 +68,11 @@ class _ComingSoon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(title));
+    return Center(
+  child: ElevatedButton(
+    onPressed: () => context.read<AuthProvider>().logout(),
+    child: const Text('Logout'),
+  ),
+);
   }
 }

@@ -1,11 +1,12 @@
 import 'package:employee_directory/core/utils/validators.dart';
+import 'package:employee_directory/providers/auth_provider.dart';
 import 'package:employee_directory/screens/auth/registration_screen.dart';
-import 'package:employee_directory/screens/home/home_screen.dart';
 import 'package:employee_directory/widgets/app_button.dart';
 import 'package:employee_directory/widgets/app_logo.dart';
 import 'package:employee_directory/widgets/app_text_field.dart';
 import 'package:employee_directory/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,12 +28,23 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _onLogin() {
-    if (!_formKey.currentState!.validate()) return;
+Future<void> _onLogin() async {
+  if (!_formKey.currentState!.validate()) return;
+  FocusScope.of(context).unfocus();
 
-    // TODO: AuthProvider.login()
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=>HomeScreen()));
+  final auth = context.read<AuthProvider>();
+  final ok = await auth.login(
+    _emailController.text,
+    _passwordController.text,
+  );
+
+  if (!ok && mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(auth.errorMessage ?? 'Login failed')),
+    );
   }
+  // On success there is no navigation code. The router redirects to /home.
+}
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 48,
                   child: AppButton(
                     label: 'Login',
+                    isLoading: context.select<AuthProvider, bool>((p) => p.isLoading),
                     onPressed: _onLogin,
                   ),
                 ),

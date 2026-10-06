@@ -2,10 +2,17 @@ import 'dart:io';
 
 import 'package:employee_directory/core/theme/app_colors.dart';
 import 'package:employee_directory/core/utils/validators.dart';
+import 'package:employee_directory/core/utils/view_status.dart';
+import 'package:employee_directory/providers/auth_provider.dart';
+import 'package:employee_directory/providers/department_provider.dart';
+import 'package:employee_directory/routes/app_routes.dart';
 import 'package:employee_directory/widgets/app_button.dart';
 import 'package:employee_directory/widgets/app_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -21,9 +28,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _employeeIdController = TextEditingController();
   final _emailController = TextEditingController();
   final _mobileController = TextEditingController();
+  final _designationController = TextEditingController();
+  final _dateController = TextEditingController();
   final _passwordController = TextEditingController();
 
   File? _profileImage;
+  int? _departmentId;
+  DateTime? _joiningDate;
+
+  @override
+  void initState() {
+    super.initState();
+    // Load departments after the first frame so notifyListeners is safe.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<DepartmentProvider>().load();
+    });
+  }
 
   @override
   void dispose() {
@@ -31,8 +51,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _employeeIdController.dispose();
     _emailController.dispose();
     _mobileController.dispose();
+    _designationController.dispose();
+    _dateController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _goToLogin() {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(AppRoutes.login);
+    }
+  }
+
+  void _showMessage(String text) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
 
   Future<void> _pickImage() async {
@@ -50,10 +84,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  void _onRegister() {
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _joiningDate ?? now,
+      firstDate: DateTime(now.year - 40),
+      lastDate: DateTime(now.year + 1),
+    );
+    if (date == null) return;
+    setState(() {
+      _joiningDate = date;
+      _dateController.text = DateFormat('dd MMM yyyy').format(date);
+    });
+  }
+
+  Future<void> _onRegister() async {
     if (!_formKey.currentState!.validate()) return;
 
-    // TODO: AuthProvider.register()
+    if (_profileImage == null) {
+      _showMessage('Please select a profile photo');
+      return;
+    }
+
+    FocusScope.of(context).unfocus();
+
+    final auth = context.read<AuthProvider>();
+    final success = await auth.register(
+      fullName: _fullNameController.text,
+      employeeId: _employeeIdController.text,
+      email: _emailController.text,
+      mobileNumber: _mobileController.text,
+      password: _passwordController.text,
+      dateOfJoining: DateFormat('yyyy-MM-dd').format(_joiningDate!),
+      departmentId: _departmentId!,
+      designation: _designationController.text,
+      imagePath: _profileImage!.path,
+    );
+
+    if (!mounted) return;
+
+    if (success) {
+      _showMessage('Registration successful. Please log in.');
+      context.go(AppRoutes.login);
+    } else {
+      _showMessage(auth.errorMessage ?? 'Registration failed');
+    }
   }
 
   @override
@@ -75,9 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: _goToLogin,
                       icon: const Icon(
                         Icons.arrow_back_ios_new,
                         size: 21,
@@ -239,6 +313,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 const SizedBox(height: 10),
 
+                // Department (loaded from the API)
+                _buildDepartmentField(),
+
+                const SizedBox(height: 10),
+
+                // Designation
+                AppTextField(
+                  label: 'Designation',
+                  controller: _designationController,
+                  prefixIcon: Icons.work_outline,
+                  textInputAction: TextInputAction.next,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter designation';
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 10),
+
+                // Date of joining
+                TextFormField(
+                  controller: _dateController,
+                  readOnly: true,
+                  onTap: _pickDate,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select date of joining';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Date of Joining',
+                    prefixIcon: Icon(Icons.calendar_today_outlined),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
                 // Password
                 AppTextField(
                   label: 'Password',
@@ -256,6 +370,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 48,
                   child: AppButton(
                     label: 'Register',
+                    isLoading:
+                        context.select<AuthProvider, bool>((p) => p.isLoading),
                     onPressed: _onRegister,
                   ),
                 ),
@@ -275,9 +391,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
+                      onTap: _goToLogin,
                       child: const Text(
                         'Login',
                         style: TextStyle(
@@ -296,6 +410,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDepartmentField() {
+    final depts = context.watch<DepartmentProvider>();
+
+    if (depts.status == ViewStatus.error) {
+      return Row(
+        children: [
+          Expanded(
+            child: Text(
+              depts.errorMessage ?? 'Could not load departments',
+              style: const TextStyle(color: AppColors.error),
+            ),
+          ),
+          TextButton(
+            onPressed: () => depts.load(force: true),
+            child: const Text('Retry'),
+          ),
+        ],
+      );
+    }
+
+    final loading = depts.status == ViewStatus.loading ||
+        depts.status == ViewStatus.initial;
+
+    return DropdownButtonFormField<int>(
+      initialValue: _departmentId,
+      isExpanded: true,
+      decoration: InputDecoration(
+        labelText: loading ? 'Loading departments...' : 'Department',
+        prefixIcon: const Icon(Icons.apartment),
+      ),
+      items: depts.departments
+          .map((d) => DropdownMenuItem(value: d.id, child: Text(d.name)))
+          .toList(),
+      onChanged: loading ? null : (v) => setState(() => _departmentId = v),
+      validator: (v) => v == null ? 'Select a department' : null,
     );
   }
 }

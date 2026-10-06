@@ -18,4 +18,13 @@ class Validators {
     if (value.length < 6) return 'Password must be at least 6 characters';
     return null;
   }
+
+  static String? mobile(String? value) {
+  if (value == null || value.trim().isEmpty) return 'Mobile number is required';
+  final digits = value.replaceAll(RegExp(r'[\s\-+]'), '');
+  if (!RegExp(r'^\d{10,13}$').hasMatch(digits)) {
+    return 'Enter a valid mobile number';
+  }
+  return null;
+}
 }

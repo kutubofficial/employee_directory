@@ -41,9 +41,7 @@ class EmployeeTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      fontSize: 18,fontWeight: FontWeight.w700,color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -52,9 +50,7 @@ class EmployeeTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.textPrimary,
+                      fontSize: 15,fontWeight: FontWeight.w500,color: AppColors.textPrimary,
                     ),
                   ),
                   Text(
@@ -62,9 +58,7 @@ class EmployeeTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14.5,
-                      color: AppColors.textSecondary,
+                      fontWeight: FontWeight.w400,fontSize: 14.5, color: AppColors.textSecondary,
                     ),
                   ),
                 ],
@@ -76,8 +70,7 @@ class EmployeeTile extends StatelessWidget {
             ),
             IconButton(
               onPressed: onMessage,
-              icon: const Icon(Icons.chat_bubble_outline,
-                  color: AppColors.primary),
+              icon: const Icon(Icons.chat_bubble_outline,color: AppColors.primary),
             ),
           ],
         ),

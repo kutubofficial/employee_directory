@@ -1,4 +1,5 @@
 import 'package:employee_directory/core/theme/app_colors.dart';
+import 'package:employee_directory/core/utils/url_launcher_helper.dart';
 import 'package:employee_directory/widgets/detail_row.dart';
 import 'package:employee_directory/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class EmployeeDetailScreen extends StatelessWidget {
         surfaceTintColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        leading: IconButton(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios,
+        leading: IconButton(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios_new_rounded,
         size: 24,color: AppColors.textPrimary,)),
 
         title: const Text(
@@ -83,7 +84,7 @@ class EmployeeDetailScreen extends StatelessWidget {
 
             const SizedBox(height: 18),
 
-            _buildActions(),
+            _buildActions(context),
 
             const SizedBox(height: 14),
 
@@ -175,26 +176,26 @@ class EmployeeDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActions() {
+  Widget _buildActions(BuildContext context) {
     return Row(
       children: [
         _ActionButton(
           icon: Icons.phone,
-          onTap: () {},
+          onTap: () => UrlLauncherHelper.call(context, mobile),
         ),
 
         const SizedBox(width: 7),
 
         _ActionButton(
           icon: Icons.chat_bubble_outline,
-          onTap: () {},
+          onTap: () => UrlLauncherHelper.sms(context, mobile),
         ),
 
         const SizedBox(width: 7),
 
         _ActionButton(
           icon: Icons.mail_outline,
-          onTap: () {},
+          onTap: () => UrlLauncherHelper.email(context, email),
         ),
 
         const SizedBox(width: 7),

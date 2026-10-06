@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:employee_directory/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../core/theme/app_colors.dart';
 
 class UserAvatar extends StatelessWidget {
   final String name;
@@ -19,11 +19,7 @@ class UserAvatar extends StatelessWidget {
     final trimmed = name.trim();
     final initials = trimmed.isEmpty
         ? '?'
-        : trimmed
-            .split(RegExp(r'\s+'))
-            .take(2)
-            .map((w) => w[0].toUpperCase())
-            .join();
+        : trimmed.split(RegExp(r'\s+')).take(2).map((w) => w[0].toUpperCase()).join();
 
     final fallback = CircleAvatar(
       radius: radius,

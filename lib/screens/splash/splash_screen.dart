@@ -1,5 +1,4 @@
 import 'package:employee_directory/providers/auth_provider.dart';
-import 'package:employee_directory/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:employee_directory/core/theme/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -40,14 +39,16 @@ class _SplashScreenState extends State<SplashScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              const Spacer(flex: 3),
-
-              const AppLogo(
-                light: true,
-                size: 1.3,
-              ),
-
               const Spacer(flex: 2),
+
+                 Center(
+          child: Image.asset(
+                'assets/icons/splash_logo.png',
+                width: 280,fit: BoxFit.contain,
+              ),
+          ),
+
+              const Spacer(flex: 1),
 
               const Text(
                 'Employee Directory',

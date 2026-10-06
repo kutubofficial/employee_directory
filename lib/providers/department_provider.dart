@@ -1,8 +1,8 @@
+import 'package:employee_directory/core/network/api_exception.dart';
+import 'package:employee_directory/core/utils/view_status.dart';
+import 'package:employee_directory/models/department.dart';
+import 'package:employee_directory/repositories/department_repository.dart';
 import 'package:flutter/foundation.dart';
-import '../core/network/api_exception.dart';
-import '../core/utils/view_status.dart';
-import '../models/department.dart';
-import '../repositories/department_repository.dart';
 
 class DepartmentProvider extends ChangeNotifier {
   final DepartmentRepository _repo;

@@ -1,14 +1,16 @@
+import 'package:employee_directory/core/theme/app_colors.dart';
+import 'package:employee_directory/core/utils/url_launcher_helper.dart';
+import 'package:employee_directory/core/utils/view_status.dart';
+import 'package:employee_directory/models/employee.dart';
+import 'package:employee_directory/providers/department_provider.dart';
+import 'package:employee_directory/providers/employee_list_provider.dart';
+import 'package:employee_directory/widgets/employee_tile.dart';
+import 'package:employee_directory/widgets/empty_view.dart';
+import 'package:employee_directory/widgets/error_view.dart';
+import 'package:employee_directory/widgets/loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/utils/view_status.dart';
-import '../../models/employee.dart';
-import '../../providers/department_provider.dart';
-import '../../providers/employee_list_provider.dart';
-import '../../widgets/employee_tile.dart';
-import '../../widgets/empty_view.dart';
-import '../../widgets/error_view.dart';
-import '../../widgets/loading_view.dart';
+
 import 'employee_detail_screen.dart';
 
 class EmployeeListScreen extends StatefulWidget {
@@ -47,8 +49,9 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
     }
   }
 
-  void _openDetail(Employee e) {
-    Navigator.push(
+  void _openDetail(Employee e) async{
+    FocusManager.instance.primaryFocus?.unfocus();
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => EmployeeDetailScreen(
@@ -63,20 +66,29 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
         ),
       ),
     );
+    if(!mounted) return;
+     WidgetsBinding.instance.addPostFrameCallback((_) {
+    FocusManager.instance.primaryFocus?.unfocus();
+  });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          _buildHeader(),
-          _buildSearchBar(),
-          const SizedBox(height: 12),
-          _buildChips(),
-          const SizedBox(height: 8),
-          Expanded(child: _buildBody()),
-        ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: SafeArea(
+        child: Column(
+          children: [
+            _buildHeader(),
+            _buildSearchBar(),
+            const SizedBox(height: 12),
+            _buildChips(),
+            const SizedBox(height: 8),
+            Expanded(child: _buildBody()),
+          ],
+        ),
       ),
     );
   }
@@ -94,16 +106,14 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
           final filtered = list.search.isNotEmpty || list.departmentId != null;
           return EmptyView(
             message: filtered
-                ? 'No employees match your search.'
-                : 'No employees found.',
+                ? 'No employees match your search.': 'No employees found.',
           );
         }
         if (list.employees.isEmpty) return const LoadingView();
 
         return Column(
           children: [
-            if (list.status == ViewStatus.loading)
-              const LinearProgressIndicator(minHeight: 2),
+            if (list.status == ViewStatus.loading) const LinearProgressIndicator(minHeight: 2),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: list.load,
@@ -111,8 +121,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                   controller: _scrollController,
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: list.employees.length + (list.loadingMore ? 1 : 0),
-                  separatorBuilder: (_, _) =>
-                      const Divider(height: 1, indent: 86),
+                  separatorBuilder: (_, _) => const Divider(height: 1, indent: 86),
                   itemBuilder: (_, i) {
                     if (i >= list.employees.length) {
                       return const Padding(
@@ -132,6 +141,8 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                       designation: e.designation,
                       department: e.departmentName,
                       imageUrl: e.imageUrl,
+                      onCall: () => UrlLauncherHelper.call(context, e.mobileNumber),
+                      onMessage: () => UrlLauncherHelper.sms(context, e.mobileNumber),
                       onTap: () => _openDetail(e),
                     );
                   },
@@ -144,45 +155,43 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        children: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-          const Spacer(),
-          const Icon(Icons.change_history_rounded,
-              color: AppColors.primary, size: 30),
-          const SizedBox(width: 6),
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'ALOBHA',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
-                  height: 1,
-                ),
-              ),
-              Text(
-                'Technologies',
-                style: TextStyle(fontSize: 9, letterSpacing: 1.2),
-              ),
-            ],
-          ),
-          const Spacer(),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications, color: AppColors.primary),
-          ),
-        ],
-      ),
-    );
-  }
+Widget _buildHeader() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    child: Row(
+      children: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.menu,size: 28,),
+        ),
 
+        // const Spacer(),
+        const SizedBox(width: 32,),
+
+        Image.asset(
+          'assets/icons/home_logo.png',
+          width: 140,
+          height: 70,
+          fit: BoxFit.contain,
+        ),
+
+        const Spacer(),
+
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.search,size: 28),
+        ),
+
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.notifications,size: 28,color: AppColors.primary,
+          ),
+        ),
+      ],
+    ),
+  );
+}
   Widget _buildSearchBar() {
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(24),
@@ -194,13 +203,12 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
         controller: _searchController,
         textInputAction: TextInputAction.search,
         onChanged: (value) {
-          setState(() {}); // refreshes the clear (x) button
+          setState(() {}); 
           context.read<EmployeeListProvider>().setSearch(value);
         },
         decoration: InputDecoration(
           hintText: 'Search employees by name, department...',
-          hintStyle:
-              const TextStyle(fontSize: 14, color: AppColors.textSecondary),
+          hintStyle:const TextStyle(fontSize: 14, color: AppColors.textSecondary),
           prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
           suffixIcon: _searchController.text.isEmpty
               ? null
@@ -246,13 +254,11 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: selected ? AppColors.primary : AppColors.chipFill,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Text(
-                    chip.label,
+                  child: Text( chip.label,
                     style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 14,fontWeight: FontWeight.w500,
                       color: selected ? Colors.white : AppColors.textPrimary,
                     ),
                   ),

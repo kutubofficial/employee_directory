@@ -1,5 +1,6 @@
 import 'package:employee_directory/core/theme/app_colors.dart';
 import 'package:employee_directory/providers/auth_provider.dart';
+import 'package:employee_directory/screens/departments/departments_screen.dart';
 import 'package:employee_directory/screens/employees/employee_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,10 +15,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
 
-  // IndexedStack keeps each tab's state (scroll position, search) alive
   static const _pages = <Widget>[
     EmployeeListScreen(),
-    _ComingSoon('Departments'),
+    DepartmentsScreen(),
     _ComingSoon('Favorites'),
     _ComingSoon('More'),
   ];

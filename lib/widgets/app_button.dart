@@ -18,8 +18,13 @@ class AppButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
         disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.6),
         disabledForegroundColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(9),),
+        padding: EdgeInsets.zero,
       ),
       child: isLoading
           ? const SizedBox(
@@ -30,7 +35,7 @@ class AppButton extends StatelessWidget {
                 color: Colors.white,
               ),
             )
-          : Text(label),
+          : Text(label,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,),),
     );
   }
 }

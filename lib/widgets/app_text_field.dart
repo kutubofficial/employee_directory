@@ -1,3 +1,4 @@
+import 'package:employee_directory/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatefulWidget {
@@ -37,11 +38,12 @@ class _AppTextFieldState extends State<AppTextField> {
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
       validator: widget.validator,
+      style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: AppColors.textPrimary),
       onChanged: widget.onChanged,
       decoration: InputDecoration(
         labelText: widget.label,
-        prefixIcon:
-            widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
+        contentPadding: const EdgeInsets.symmetric(vertical: 17,horizontal: 20),
+        prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
         suffixIcon: widget.isPassword
             ? IconButton(
                 icon: Icon(

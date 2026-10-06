@@ -1,6 +1,8 @@
 import 'package:employee_directory/core/network/api_client.dart';
 import 'package:employee_directory/providers/department_provider.dart';
+import 'package:employee_directory/providers/employee_list_provider.dart';
 import 'package:employee_directory/repositories/department_repository.dart';
+import 'package:employee_directory/repositories/employee_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -22,12 +24,11 @@ class _AppState extends State<App> {
   late final TokenStorage _tokenStorage = TokenStorage();
   late final DioClient _dioClient = DioClient(_tokenStorage);
   late final AuthRepository _authRepo = AuthRepository(_dioClient.dio);
-  late final AuthProvider _authProvider =
-      AuthProvider(_authRepo, _tokenStorage);
+  late final AuthProvider _authProvider = AuthProvider(_authRepo, _tokenStorage);
   late final GoRouter _router = AppRoutes.create(_authProvider);
+  late final EmployeeRepository _employeeRepo = EmployeeRepository(_dioClient.dio);
 
-  late final DepartmentRepository _departmentRepo =
-    DepartmentRepository(_dioClient.dio);
+  late final DepartmentRepository _departmentRepo = DepartmentRepository(_dioClient.dio);
 
   @override
   void initState() {
@@ -62,6 +63,10 @@ class _AppState extends State<App> {
         ChangeNotifierProvider<DepartmentProvider>(
         create: (_) => DepartmentProvider(_departmentRepo),
   ),
+        Provider<EmployeeRepository>.value(value: _employeeRepo),
+        ChangeNotifierProvider<EmployeeListProvider>(
+        create: (_) => EmployeeListProvider(_employeeRepo),
+),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

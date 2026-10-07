@@ -1,6 +1,7 @@
 import 'package:employee_directory/core/network/api_client.dart';
 import 'package:employee_directory/providers/department_provider.dart';
 import 'package:employee_directory/providers/employee_list_provider.dart';
+import 'package:employee_directory/providers/password_reset_provider.dart';
 import 'package:employee_directory/repositories/department_repository.dart';
 import 'package:employee_directory/repositories/employee_repository.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,9 @@ class _AppState extends State<App> {
         Provider<EmployeeRepository>.value(value: _employeeRepo),
         ChangeNotifierProvider<EmployeeListProvider>(
         create: (_) => EmployeeListProvider(_employeeRepo),
+),
+ChangeNotifierProvider<PasswordResetProvider>(
+  create: (_) => PasswordResetProvider(_authRepo),
 ),
       ],
       child: MaterialApp.router(

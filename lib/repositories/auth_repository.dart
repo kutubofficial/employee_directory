@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:employee_directory/core/constants/api_constants.dart';
-import '../core/network/api_exception.dart';
-import '../models/employee.dart';
+import 'package:employee_directory/core/network/api_exception.dart';
+import 'package:employee_directory/models/employee.dart';
+
 
 class AuthRepository {
   final Dio _dio;
@@ -74,4 +75,23 @@ class AuthRepository {
       throw ApiException.fromDio(e);
     }
   }
+
+  Future<void> sendOtp(String email) =>
+    _post(ApiConstants.sendOtp, {'email': email});
+
+Future<void> verifyOtp(String email, String otp) =>
+    _post(ApiConstants.verifyOtp, {'email': email, 'otp': otp});
+
+Future<void> resetPassword(String email, String newPassword) => _post(
+      ApiConstants.resetPassword,
+      {'email': email, 'new_password': newPassword},
+    );
+
+Future<void> _post(String path, Map<String, dynamic> body) async {
+  try {
+    await _dio.post(path, data: body);
+  } on DioException catch (e) {
+    throw ApiException.fromDio(e);
+  }
+}
 }

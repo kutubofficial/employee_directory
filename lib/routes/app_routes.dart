@@ -1,10 +1,12 @@
 import 'package:employee_directory/providers/auth_provider.dart';
+import 'package:employee_directory/screens/auth/forgot_password_screen.dart';
 import 'package:employee_directory/screens/auth/login_screen.dart';
 import 'package:employee_directory/screens/auth/registration_screen.dart';
+import 'package:employee_directory/screens/auth/reset_password_screen.dart';
+import 'package:employee_directory/screens/auth/verify_otp_screen.dart';
 import 'package:employee_directory/screens/home/home_screen.dart';
 import 'package:employee_directory/screens/splash/splash_screen.dart';
 import 'package:go_router/go_router.dart';
-
 
 class AppRoutes {
   AppRoutes._();
@@ -12,10 +14,19 @@ class AppRoutes {
   static const splash = '/';
   static const login = '/login';
   static const register = '/register';
+  static const forgotPassword = '/forgot-password';
+  static const verifyOtp = '/verify-otp';
+  static const resetPassword = '/reset-password';
   static const home = '/home';
 
-  // Pages a logged-out user may see. Add forgot-password / OTP routes later.
-  static const _publicRoutes = {login, register};
+  // Pages a logged-out user may see.
+  static const _publicRoutes = {
+    login,
+    register,
+    forgotPassword,
+    verifyOtp,
+    resetPassword,
+  };
 
   static GoRouter create(AuthProvider auth) {
     return GoRouter(
@@ -37,6 +48,9 @@ class AppRoutes {
         GoRoute(path: splash, builder: (_, _) => const SplashScreen()),
         GoRoute(path: login, builder: (_, _) => const LoginScreen()),
         GoRoute(path: register, builder: (_, _) => const RegisterScreen()),
+        GoRoute(path: forgotPassword,builder: (_, _) => const ForgotPasswordScreen(),),
+        GoRoute(path: verifyOtp, builder: (_, _) => const VerifyOtpScreen()),
+        GoRoute(path: resetPassword,builder: (_, _) => const ResetPasswordScreen(),),
         GoRoute(path: home, builder: (_, _) => const HomeScreen()),
       ],
     );

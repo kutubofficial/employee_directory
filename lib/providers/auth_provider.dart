@@ -1,9 +1,10 @@
+import 'package:employee_directory/core/network/api_exception.dart';
+import 'package:employee_directory/core/storage/token_storage.dart';
+import 'package:employee_directory/core/utils/view_status.dart';
+import 'package:employee_directory/models/employee.dart';
+import 'package:employee_directory/repositories/auth_repository.dart';
 import 'package:flutter/foundation.dart';
-import '../core/network/api_exception.dart';
-import '../core/storage/token_storage.dart';
-import '../core/utils/view_status.dart';
-import '../models/employee.dart';
-import '../repositories/auth_repository.dart';
+
 
 class AuthProvider extends ChangeNotifier {
   final AuthRepository _repo;

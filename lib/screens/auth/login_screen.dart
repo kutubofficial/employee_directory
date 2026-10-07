@@ -126,9 +126,7 @@ Future<void> _onLogin() async {
                   Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
-                      onTap: () {
-                        // TODO: navigate to forgot password
-                      },
+                      onTap: () => context.push(AppRoutes.forgotPassword),
                       child: const Padding(
                         padding: EdgeInsets.only(
                           top: 12,

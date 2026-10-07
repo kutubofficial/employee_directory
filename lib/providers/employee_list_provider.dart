@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'package:employee_directory/core/network/api_exception.dart';
+import 'package:employee_directory/core/utils/view_status.dart';
+import 'package:employee_directory/models/employee.dart';
+import 'package:employee_directory/repositories/employee_repository.dart';
 import 'package:flutter/foundation.dart';
-import '../core/network/api_exception.dart';
-import '../core/utils/view_status.dart';
-import '../models/employee.dart';
-import '../repositories/employee_repository.dart';
+
 
 class EmployeeListProvider extends ChangeNotifier {
   final EmployeeRepository _repo;

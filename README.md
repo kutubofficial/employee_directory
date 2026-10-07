@@ -26,7 +26,7 @@ A cross-platform Employee Directory mobile app built with Flutter for the Flutte
 ## Setup
 
 ```bash
-git clone <kutubofficial>
+git clone <https://github.com/kutubofficial/employee_directory.git>
 cd employee_directory
 flutter pub get
 flutter run

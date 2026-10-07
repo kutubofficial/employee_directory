@@ -388,41 +388,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildDepartmentField() {
-    final depts = context.watch<DepartmentProvider>();
+Widget _buildDepartmentField() {
+  final depts = context.watch<DepartmentProvider>();
 
-    if (depts.status == ViewStatus.error) {
-      return Row(
-        children: [
-          Expanded(
-            child: Text(
-              depts.errorMessage ?? 'Could not load departments',
-              style: const TextStyle(color: AppColors.error),
-            ),
+  if (depts.status == ViewStatus.error) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            depts.errorMessage ?? 'Could not load departments',
+            style: const TextStyle(color: AppColors.error),
           ),
-          TextButton(
-            onPressed: () => depts.load(force: true),
-            child: const Text('Retry'),
-          ),
-        ],
-      );
-    }
-
-    final loading = depts.status == ViewStatus.loading ||
-        depts.status == ViewStatus.initial;
-
-    return DropdownButtonFormField<int>(
-      initialValue: _departmentId,
-      isExpanded: true,
-      decoration: InputDecoration(
-        labelText: loading ? 'Loading departments...' : 'Department',
-        prefixIcon: const Icon(Icons.apartment),
-      ),
-      items: depts.departments
-          .map((d) => DropdownMenuItem(value: d.id, child: Text(d.name)))
-          .toList(),
-      onChanged: loading ? null : (v) => setState(() => _departmentId = v),
-      validator: (v) => v == null ? 'Select a department' : null,
+        ),
+        TextButton(
+          onPressed: () => depts.load(force: true),
+          child: const Text('Retry'),
+        ),
+      ],
     );
   }
+
+  final loading = depts.status == ViewStatus.loading || depts.status == ViewStatus.initial;
+
+  return DropdownButtonFormField<int>(
+    initialValue: _departmentId,
+    isExpanded: true,
+    dropdownColor: Colors.white,
+    borderRadius: BorderRadius.circular(12),
+    menuMaxHeight: 320,
+    icon: const Icon(
+      Icons.keyboard_arrow_down_rounded,color: AppColors.textSecondary,
+    ),
+    style: const TextStyle(
+      fontSize: 15,fontWeight: FontWeight.w500,color: AppColors.textPrimary,
+    ),
+    decoration: InputDecoration(
+      labelText: loading ? 'Loading departments...' : 'Department',
+      prefixIcon: const Icon(Icons.apartment),
+    ),
+    items: depts.departments
+        .map((d) => DropdownMenuItem(value: d.id, child: Text(d.name))).toList(),
+    onChanged: loading ? null : (v) => setState(() => _departmentId = v),
+    validator: (v) => v == null ? 'Select a department' : null,
+  );
+}
+
 }

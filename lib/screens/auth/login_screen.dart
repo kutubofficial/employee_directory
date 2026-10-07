@@ -178,9 +178,7 @@ Future<void> _onLogin() async {
                   SizedBox(
                     height: 48,
                     child: OutlinedButton(
-                      onPressed: () {
-                        // TODO: Google login
-                      },
+                      onPressed: () {},
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.white,
                         side: const BorderSide(

@@ -20,8 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
   
   Future<void> _start() async {
     final auth = context.read<AuthProvider>();
-    await Future.delayed(const Duration(milliseconds: 1500)); // brand moment
-    await auth.tryAutoLogin(); // router redirects when this finishes
+    await Future.delayed(const Duration(milliseconds: 1500)); 
+    await auth.tryAutoLogin(); 
   }
 
   @override

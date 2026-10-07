@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: IndexedStack(index: _index, children: _pages),
       bottomNavigationBar: Container(
-        height: 68,
+        // height: 68,
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: AppColors.divider)),
         ),
